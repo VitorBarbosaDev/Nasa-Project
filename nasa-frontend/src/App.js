@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import APOD from './components/APOD';
+import Rover from './components/Rover';
 import styles from './App.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -34,12 +35,21 @@ function App() {
                 >
                     APOD
                 </NavLink>
+                <NavLink
+                    to="/rover"
+                    className={({ isActive }) =>
+                        isActive ? styles.activeLink : styles.link
+                    }
+                >
+                    Rover
+                </NavLink>
             </nav>
 
             {/* Route definitions */}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/apod" element={<APOD />} />
+                <Route path="/rover" element={<Rover />} />
             </Routes>
         </BrowserRouter>
     );
