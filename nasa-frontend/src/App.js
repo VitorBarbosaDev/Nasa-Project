@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import APOD from './components/APOD';
+import styles from './App.module.css';
 import { NavLink } from 'react-router-dom';
 
 
@@ -16,15 +17,22 @@ function App() {
     return (
         <BrowserRouter>
             {/* Navigation bar with links */}
-            <nav style={{ padding: '1rem', background: '#222', color: '#fff' }}>
-                <Link to="/" style={{ marginRight: '1rem' }}>Home</Link>
+            <nav className={styles.nav}>
+                <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                        isActive ? styles.activeLink : styles.link
+                    }
+                >
+                    Home
+                </NavLink>
                 <NavLink
                     to="/apod"
-                    style={({ isActive }) => ({
-                        marginRight: '1rem',
-                        color: isActive ? '#fff' : '#61dafb'
-                    })}
-                >APOD
+                    className={({ isActive }) =>
+                        isActive ? styles.activeLink : styles.link
+                    }
+                >
+                    APOD
                 </NavLink>
             </nav>
 

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Title from "./Title";
 import ImageCard from "./ImageCard";
 import Description from "./Description";
+import styles from './APOD.module.css';
 
 export default function APOD() {
     const [data, setData] = useState(null);
@@ -30,7 +31,8 @@ export default function APOD() {
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <div style={{ padding: '1rem' }}>
+        <div className={styles.container}>
+            <p className={styles.date}>{data.date}</p>
             <Title text={data.title} />
             <ImageCard src={data.url} alt={data.title} />
             <Description text={data.explanation} />

@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #f5f5f5; }
+
+/* Navigation styles */
+.nav {
+    padding: 1rem;
+    background: #222;
+}
+
+/* Link styles */
+.link,
+.activeLink {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.link {
+    color: #61dafb;
+}
+.link:hover,
+.link:focus {
+    background-color: rgba(255,255,255,0.1);
+}
+.activeLink {
+    color: #fff;
+    background-color: rgba(255,255,255,0.2);
+}

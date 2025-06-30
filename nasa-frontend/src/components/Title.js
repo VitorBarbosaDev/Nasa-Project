@@ -1,5 +1,6 @@
 import React from 'react';
+import styles from './Title.module.css';
 
 export default function Title({ text }) {
-    return <h2 style={{ marginBottom: '0.5rem' }}>{text}</h2>;
+    return <h2 className={styles.title}>{text}</h2>;
 }
