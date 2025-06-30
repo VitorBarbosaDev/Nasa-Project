@@ -4,6 +4,7 @@ import ImageCard from "./ImageCard";
 import Description from "./Description";
 import styles from './APOD.module.css';
 import Spinner from './Spinner';
+import { apiEndpoints } from '../config/api';
 
 export default function APOD() {
     const today = new Date().toISOString().split('T')[0];
@@ -14,9 +15,13 @@ export default function APOD() {
 
     const fetchData = (d) => {
         setLoading(true); setError(null);
-        fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.REACT_APP_NASA_API_KEY}&date=${d}`)
+        fetch(apiEndpoints.apod(d))
             .then(res => {
-                if (!res.ok) throw new Error('Network response was not ok');
+                if (!res.ok) {
+                    return res.json().then(errorData => {
+                        throw new Error(errorData.error || 'Network response was not ok');
+                    });
+                }
                 return res.json();
             })
             .then(json => {

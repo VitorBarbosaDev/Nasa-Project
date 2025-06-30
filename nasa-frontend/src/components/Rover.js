@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Rover.module.css';
 import Spinner from './Spinner';
+import { apiEndpoints } from '../config/api';
 
 export default function Rover() {
     const [photos, setPhotos] = useState([]);
@@ -19,11 +20,16 @@ export default function Rover() {
     const fetchPhotos = () => {
         setLoading(true);
         setError(null);
-        const base = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos`;
-        const url = `${base}?earth_date=${earthDate}&api_key=${process.env.REACT_APP_NASA_API_KEY}`;
 
-        fetch(url)
-            .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+        fetch(apiEndpoints.rover(earthDate, 'curiosity', camera))
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(errorData => {
+                        throw new Error(errorData.error || 'Network response was not ok');
+                    });
+                }
+                return res.json();
+            })
             .then(json => {
                 setPhotos(json.photos);
                 setFiltered(json.photos);

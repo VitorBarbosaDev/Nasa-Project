@@ -11,7 +11,7 @@ This Express.js backend serves as a proxy for NASA API calls, providing centrali
 
 2. **Configure environment variables:**
    ```bash
-   cp .env.example .env
+   cp .env .env
    ```
    Then edit `.env` and add your NASA API key:
    ```

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Earth.module.css';
 import Spinner from './Spinner';
+import { apiEndpoints } from '../config/api';
 
 export default function Earth() {
     const [date, setDate] = useState('');
@@ -12,10 +13,16 @@ export default function Earth() {
     const fetchImages = () => {
         if (!date) return;
         setLoading(true);
-        const [y, m, d] = date.split('-');
-        const url = `https://api.nasa.gov/EPIC/api/natural/date/${y}-${m}-${d}?api_key=${process.env.REACT_APP_NASA_API_KEY}`;
-        fetch(url)
-            .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+
+        fetch(apiEndpoints.earth(date))
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(errorData => {
+                        throw new Error(errorData.error || 'Network response was not ok');
+                    });
+                }
+                return res.json();
+            })
             .then(json => {
                 setImages(json);
                 setLoading(false);
@@ -61,7 +68,7 @@ export default function Earth() {
             {error && <p>Error: {error.toString()}</p>}
             <div className={styles.gallery}>
                 {images.map(img => {
-                    const imgUrl = `https://api.nasa.gov/EPIC/archive/natural/${img.date.split(' ')[0].replaceAll('-', '/')}/png/${img.image}.png?api_key=${process.env.REACT_APP_NASA_API_KEY}`;
+                    const imgUrl = apiEndpoints.earthImage(img.date.split(' ')[0], img.image);
                     return (
                         <div key={img.image} className={styles.card} onClick={() => openModal(img)}>
                             <img src={imgUrl} alt={img.caption} className={styles.image} />
@@ -76,7 +83,7 @@ export default function Earth() {
                     <>
                         <button className={styles.modalClose} onClick={closeModal}>&times;</button>
                         <img
-                            src={`https://api.nasa.gov/EPIC/archive/natural/${selectedImage.date.split(' ')[0].replaceAll('-', '/')}/png/${selectedImage.image}.png?api_key=${process.env.REACT_APP_NASA_API_KEY}`}
+                            src={apiEndpoints.earthImage(selectedImage.date.split(' ')[0], selectedImage.image)}
                             alt={selectedImage.caption}
                             className={styles.modalImage}
                             onClick={e => e.stopPropagation()}

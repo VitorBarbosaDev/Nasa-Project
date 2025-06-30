@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import styles from './Neo.module.css';
 import Spinner from './Spinner';
+import { apiEndpoints } from '../config/api';
 
 // custom tooltip for largest NEO chart
 function CustomTooltip({ active, payload, label }) {
@@ -32,10 +33,16 @@ export default function Neo() {
         const start = new Date(end);
         start.setDate(end.getDate() - 6);
         const startStr = start.toISOString().split('T')[0];
-        fetch(
-            `https://api.nasa.gov/neo/rest/v1/feed?start_date=${startStr}&end_date=${date}&api_key=${process.env.REACT_APP_NASA_API_KEY}`
-        )
-            .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+
+        fetch(apiEndpoints.neo(startStr, date))
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(errorData => {
+                        throw new Error(errorData.error || 'Network response was not ok');
+                    });
+                }
+                return res.json();
+            })
             .then(json => {
                 const obj = json.near_earth_objects;
                 const days = [];
@@ -58,10 +65,16 @@ export default function Neo() {
     const fetchNEO = (d) => {
         setLoading(true);
         setError(null);
-        fetch(
-            `https://api.nasa.gov/neo/rest/v1/feed?start_date=${d}&end_date=${d}&api_key=${process.env.REACT_APP_NASA_API_KEY}`
-        )
-            .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+
+        fetch(apiEndpoints.neo(d, d))
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(errorData => {
+                        throw new Error(errorData.error || 'Network response was not ok');
+                    });
+                }
+                return res.json();
+            })
             .then(json => {
                 setAsteroids(json.near_earth_objects[d] || []);
                 setLoading(false);
