@@ -3,6 +3,7 @@ import Title from "./Title";
 import ImageCard from "./ImageCard";
 import Description from "./Description";
 import styles from './APOD.module.css';
+import Spinner from './Spinner';
 
 export default function APOD() {
     const today = new Date().toISOString().split('T')[0];
@@ -29,7 +30,7 @@ export default function APOD() {
     };
     useEffect(() => { fetchData(date); }, [date]);
 
-    if (loading) return <p>Loading APOD...</p>;
+    if (loading) return <Spinner />;
     if (error) return <p>Error: {error.message}</p>;
 
     return (

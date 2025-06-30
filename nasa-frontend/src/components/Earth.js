@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Earth.module.css';
+import Spinner from './Spinner';
 
 export default function Earth() {
     const [date, setDate] = useState('');
@@ -40,6 +41,8 @@ export default function Earth() {
         return () => window.removeEventListener('keydown', onKey);
     }, []);
 
+    if (loading) return <Spinner />;
+
     return (
         <div className={styles.container}>
             <h2 className={styles.heading}>Awesome Earth Imagery</h2>
@@ -55,7 +58,6 @@ export default function Earth() {
                 </button>
             </form>
 
-            {loading && <p>Loading images...</p>}
             {error && <p>Error: {error.toString()}</p>}
             <div className={styles.gallery}>
                 {images.map(img => {

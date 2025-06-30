@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Rover.module.css';
+import Spinner from './Spinner';
 
 export default function Rover() {
     const [photos, setPhotos] = useState([]);
@@ -107,7 +108,7 @@ export default function Rover() {
             </form>
 
             {/* Status & Results */}
-            {loading && <div className={styles.loading}>Loading Mars photos...</div>}
+            {loading && <Spinner />}
             {error && <div className={styles.error}>Error: {error.toString()}</div>}
             {!loading && !error && filtered.length === 0 && (
                 <div className={styles.noResults}>No photos found for this selection.</div>

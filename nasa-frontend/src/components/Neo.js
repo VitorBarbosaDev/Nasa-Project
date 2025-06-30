@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import styles from './Neo.module.css';
+import Spinner from './Spinner';
 
 // custom tooltip for largest NEO chart
 function CustomTooltip({ active, payload, label }) {
@@ -78,7 +79,7 @@ export default function Neo() {
         fetchNEO(date);
     };
 
-    if (loading) return <p>Loading NEO data...</p>;
+    if (loading) return<Spinner />;
     if (error) return <p>Error: {error.toString()}</p>;
 
     const sorted = [...asteroids].sort((a, b) => {
