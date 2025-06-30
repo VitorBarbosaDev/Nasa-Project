@@ -1,0 +1,144 @@
+/* Page container */
+.container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+/* Page heading */
+.heading {
+    font-size: 2rem;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+/* Filter form */
+.filterForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.dateInput {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.fetchButton {
+    padding: 0.5rem 1rem;
+    background: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+.fetchButton:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+}
+.fetchButton:not(:disabled):hover {
+    background: #1c5980;
+}
+
+/* Gallery grid */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+/* Card */
+.card {
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Earth image */
+.image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* Caption */
+.caption {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    color: #34495e;
+    text-align: center;
+    background: #ecf0f1;
+}
+
+/* Modal for full-screen Earth image */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 1000;
+}
+
+.modalOpen {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modalImage {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.modalClose {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+.modalClose:hover {
+    opacity: 1;
+}
+
+.modalInfo {
+    position: absolute;
+    bottom: 20px;
+    color: #fff;
+    background: rgba(0,0,0,0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: center;
+}
