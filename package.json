@@ -1,5 +1,31 @@
 {
+  "name": "nasa-explorer-app",
+  "version": "1.0.0",
+  "description": "NASA Explorer with React frontend and Express backend",
+  "main": "nasa-backend/server.js",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "start": "node nasa-backend/server.js",
+    "build": "cd nasa-frontend && npm install && npm run build",
+    "heroku-postbuild": "npm run build",
+    "dev": "concurrently \"cd nasa-backend && npm run dev\" \"cd nasa-frontend && npm start\"",
+    "install-deps": "cd nasa-backend && npm install && cd ../nasa-frontend && npm install"
+  },
   "dependencies": {
     "recharts": "^3.0.2"
-  }
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "keywords": [
+    "nasa",
+    "react",
+    "express",
+    "heroku"
+  ],
+  "author": "",
+  "license": "MIT"
 }

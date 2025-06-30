@@ -1,19 +1,15 @@
-// API configuration
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+// API configuration for different environments
+const API_BASE_URL = process.env.NODE_ENV === 'production'
+  ? '' // In production, API will be served from the same domain
+  : 'http://localhost:5000'; // Development backend URL
 
 export const apiEndpoints = {
   apod: (date) => `${API_BASE_URL}/api/apod${date ? `?date=${date}` : ''}`,
   rover: (earthDate, rover = 'curiosity', camera) => {
-    let url = `${API_BASE_URL}/api/rover?earth_date=${earthDate}&rover=${rover}`;
-    if (camera && camera !== 'ALL') {
-      url += `&camera=${camera}`;
-    }
-    return url;
+    const params = new URLSearchParams({ earth_date: earthDate, rover });
+    if (camera && camera !== 'ALL') params.append('camera', camera);
+    return `${API_BASE_URL}/api/rover?${params}`;
   },
   neo: (startDate, endDate) => `${API_BASE_URL}/api/neo?start_date=${startDate}&end_date=${endDate}`,
-  earth: (date) => `${API_BASE_URL}/api/earth?date=${date}`,
-  earthImage: (date, filename) => `${API_BASE_URL}/api/earth/image/${date}/${filename}`,
-  health: () => `${API_BASE_URL}/api/health`
+  earth: (date) => `${API_BASE_URL}/api/earth?date=${date}`
 };
-
-export default API_BASE_URL;
