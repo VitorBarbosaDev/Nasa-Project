@@ -1,20 +1,175 @@
+/* Main container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
 
+/* Header styles */
+.heading {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
 
+.subtitle {
+    color: #666;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* Date form styling */
+.dateForm {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.inputGroup label {
+    font-weight: 500;
+    color: #555;
+}
+
+.dateInput {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background: white;
+}
+
+.button {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    align-self: flex-end;
+}
+
+.button:hover {
+    background-color: #d62828;
+    transform: translateY(-1px);
+}
+
+.button:active {
+    transform: translateY(1px);
+}
+
+/* Status messages */
+.loading, .error, .noResults {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.loading {
+    background-color: #f8f9fa;
+    color: #666;
+    font-weight: 500;
+}
+
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.noResults {
+    background-color: #fff8e1;
+    color: #ff8f00;
+}
+
+/* Results section */
+.results {
+    margin-top: 2rem;
+}
+
+.resultsHeading {
+    font-size: 1.5rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Photo grid */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
 }
 
 .thumbnail {
     width: 100%;
-    height: auto;
-    border-radius: 4px;
+    height: 200px;
     object-fit: cover;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    border-bottom: 1px solid #eee;
 }
 
-.thumbnail:hover {
-    transform: scale(1.02);
+.photoInfo {
+    padding: 1rem;
+}
+
+.cameraName {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .heading {
+        font-size: 2rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .dateForm {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
 }
