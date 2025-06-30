@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Rover.module.css';
 
 export default function Rover() {
@@ -33,25 +33,20 @@ export default function Rover() {
         e.preventDefault();
         fetchPhotos();
     };
-
-    const openModal = (photo) => {
+    // open full-screen modal
+    const openModal = photo => {
         setSelectedPhoto(photo);
-        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        document.body.style.overflow = 'hidden';
     };
-
     const closeModal = () => {
         setSelectedPhoto(null);
-        document.body.style.overflow = 'auto'; // Re-enable scrolling
+        document.body.style.overflow = 'auto';
     };
-
-    // Close modal with Escape key
-    React.useEffect(() => {
-        const handleEsc = (e) => {
-            if (e.key === 'Escape') closeModal();
-        };
-
-        window.addEventListener('keydown', handleEsc);
-        return () => window.removeEventListener('keydown', handleEsc);
+    // close on Escape key
+    useEffect(() => {
+        const onKey = e => e.key === 'Escape' && closeModal();
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
     }, []);
 
     // render UI
@@ -59,8 +54,8 @@ export default function Rover() {
         <div className={styles.container}>
             <h1 className={styles.heading}>Mars Rover: Curiosity</h1>
             <p className={styles.subtitle}>Explore Mars through Curiosity's eyes</p>
-
             <form onSubmit={handleSubmit} className={styles.dateForm}>
+                {/* date picker */}
                 <div className={styles.inputGroup}>
                     <label htmlFor="earth-date">Select Earth Date:</label>
                     <input
@@ -73,14 +68,11 @@ export default function Rover() {
                 </div>
                 <button type="submit" className={styles.button}>Explore Photos</button>
             </form>
-
             {loading && <div className={styles.loading}>Loading Mars photos...</div>}
             {error && <div className={styles.error}>Error: {error.toString()}</div>}
-
             {!loading && !error && photos.length === 0 && (
                 <div className={styles.noResults}>No photos found for this date. Try another date.</div>
             )}
-
             {photos.length > 0 && (
                 <div className={styles.results}>
                     <h2 className={styles.resultsHeading}>
@@ -101,26 +93,28 @@ export default function Rover() {
                             </div>
                         ))}
                     </div>
+                    {/* full-screen modal */}
+                    <div
+                        className={`${styles.modal} ${selectedPhoto ? styles.modalOpen : ''}`}
+                        onClick={closeModal}
+                    >
+                        {selectedPhoto && (
+                            <>
+                                <button className={styles.modalClose} onClick={closeModal}>&times;</button>
+                                <img
+                                    src={selectedPhoto.img_src}
+                                    alt={selectedPhoto.camera.full_name}
+                                    className={styles.modalImage}
+                                    onClick={e => e.stopPropagation()}
+                                />
+                                <div className={styles.modalInfo} onClick={e => e.stopPropagation()}>
+                                    {selectedPhoto.camera.full_name} - Rover: {selectedPhoto.rover.name}
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
             )}
-
-            {/* Full-screen modal */}
-            <div className={`${styles.modal} ${selectedPhoto ? styles.modalOpen : ''}`} onClick={closeModal}>
-                {selectedPhoto && (
-                    <>
-                        <button className={styles.modalClose} onClick={closeModal}>&times;</button>
-                        <img
-                            src={selectedPhoto.img_src}
-                            alt={selectedPhoto.camera.full_name}
-                            className={styles.modalImage}
-                            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on the image
-                        />
-                        <div className={styles.modalInfo} onClick={(e) => e.stopPropagation()}>
-                            {selectedPhoto.camera.full_name} - Rover: {selectedPhoto.rover.name}
-                        </div>
-                    </>
-                )}
-            </div>
         </div>
     );
 }
