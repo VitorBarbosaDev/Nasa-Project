@@ -2,25 +2,36 @@ import React, { useState, useEffect } from 'react';
 import styles from './Neo.module.css';
 
 export default function Neo() {
+    const today = new Date().toISOString().split('T')[0];
+    const [date, setDate] = useState(today);
     const [asteroids, setAsteroids] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sortKey, setSortKey] = useState('');
 
-    useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        const url = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${today}&end_date=${today}&api_key=${process.env.REACT_APP_NASA_API_KEY}`;
-        fetch(url)
+    const fetchNEO = (d) => {
+        setLoading(true);
+        setError(null);
+        fetch(
+            `https://api.nasa.gov/neo/rest/v1/feed?start_date=${d}&end_date=${d}&api_key=${process.env.REACT_APP_NASA_API_KEY}`
+        )
             .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
             .then(json => {
-                setAsteroids(json.near_earth_objects[today]);
+                setAsteroids(json.near_earth_objects[d] || []);
                 setLoading(false);
             })
             .catch(err => {
                 setError(err);
                 setLoading(false);
             });
-    }, []);
+    };
+
+    useEffect(() => { fetchNEO(date); }, []);
+
+    const handleNEOSubmit = e => {
+        e.preventDefault();
+        fetchNEO(date);
+    };
 
     if (loading) return <p>Loading NEO data...</p>;
     if (error) return <p>Error: {error.toString()}</p>;
@@ -36,12 +47,31 @@ export default function Neo() {
     });
 
     return (
-        <div>
-            <h2>Near Earth Objects: {new Date().toLocaleDateString()}</h2>
+        <div className={styles.container}>
+            <form onSubmit={handleNEOSubmit} className={styles.dateForm}>
+                <input
+                    type="date"
+                    value={date}
+                    onChange={e => setDate(e.target.value)}
+                    max={today}
+                    className={styles.dateInput}
+                />
+                <button type="submit" className={styles.submitButton}>Get NEOs</button>
+            </form>
+            <h2 className={styles.heading}>Near Earth Objects: {new Date().toLocaleDateString()}</h2>
             <div className={styles.controls}>
-                <button onClick={() => setSortKey('')}>Default</button>
-                <button onClick={() => setSortKey('size')}>Sort by Size</button>
-                <button onClick={() => setSortKey('danger')}>Show Hazardous First</button>
+                <button
+                    className={sortKey === '' ? styles.active : ''}
+                    onClick={() => setSortKey('')}
+                >Default</button>
+                <button
+                    className={sortKey === 'size' ? styles.active : ''}
+                    onClick={() => setSortKey('size')}
+                >Sort by Size</button>
+                <button
+                    className={sortKey === 'danger' ? styles.active : ''}
+                    onClick={() => setSortKey('danger')}
+                >Show Hazardous First</button>
             </div>
             <table className={styles.table}>
                 <thead>
