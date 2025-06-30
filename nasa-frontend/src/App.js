@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import APOD from './components/APOD';
 import Rover from './components/Rover';
 import Neo from './components/Neo';
+import Earth from './components/Earth';
 import styles from './App.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -50,6 +51,12 @@ function App() {
                         isActive ? styles.activeLink : styles.link
                     }
                 >Near Earth Objects</NavLink>
+                <NavLink
+                    to="/Earth"
+                    className={({ isActive }) =>
+                        isActive ? styles.activeLink : styles.link
+                    }
+                >Earth</NavLink>
 
             </nav>
 
@@ -59,6 +66,7 @@ function App() {
                 <Route path="/apod" element={<APOD />} />
                 <Route path="/rover" element={<Rover />} />
                 <Route path="/neo" element={<Neo />} />
+                <Route path="/Earth"  element={<Earth />} />
             </Routes>
         </BrowserRouter>
     );
