@@ -10,6 +10,7 @@ export default function Rover() {
         d.setDate(d.getDate() - 1);
         return d.toISOString().split('T')[0];
     });
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
 
     const fetchPhotos = () => {
         setLoading(true);
@@ -32,6 +33,26 @@ export default function Rover() {
         e.preventDefault();
         fetchPhotos();
     };
+
+    const openModal = (photo) => {
+        setSelectedPhoto(photo);
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    };
+
+    const closeModal = () => {
+        setSelectedPhoto(null);
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+    };
+
+    // Close modal with Escape key
+    React.useEffect(() => {
+        const handleEsc = (e) => {
+            if (e.key === 'Escape') closeModal();
+        };
+
+        window.addEventListener('keydown', handleEsc);
+        return () => window.removeEventListener('keydown', handleEsc);
+    }, []);
 
     // render UI
     return (
@@ -67,7 +88,7 @@ export default function Rover() {
                     </h2>
                     <div className={styles.grid}>
                         {photos.map(photo => (
-                            <div key={photo.id} className={styles.card}>
+                            <div key={photo.id} className={styles.card} onClick={() => openModal(photo)}>
                                 <img
                                     src={photo.img_src}
                                     alt={photo.camera.full_name}
@@ -82,6 +103,24 @@ export default function Rover() {
                     </div>
                 </div>
             )}
+
+            {/* Full-screen modal */}
+            <div className={`${styles.modal} ${selectedPhoto ? styles.modalOpen : ''}`} onClick={closeModal}>
+                {selectedPhoto && (
+                    <>
+                        <button className={styles.modalClose} onClick={closeModal}>&times;</button>
+                        <img
+                            src={selectedPhoto.img_src}
+                            alt={selectedPhoto.camera.full_name}
+                            className={styles.modalImage}
+                            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on the image
+                        />
+                        <div className={styles.modalInfo} onClick={(e) => e.stopPropagation()}>
+                            {selectedPhoto.camera.full_name} - Rover: {selectedPhoto.rover.name}
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     );
 }

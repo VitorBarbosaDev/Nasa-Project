@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import APOD from './components/APOD';
 import Rover from './components/Rover';
 import styles from './App.module.css';
