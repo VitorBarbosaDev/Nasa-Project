@@ -1,16 +1,21 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink, Link } from 'react-router-dom';
 import APOD from './components/APOD';
 import Rover from './components/Rover';
 import Neo from './components/Neo';
 import Earth from './components/Earth';
 import styles from './App.module.css';
-import { NavLink } from 'react-router-dom';
 
 
 // 1️⃣ Home component: simple welcome message
 function Home() {
-    return <h2>Welcome to NASA Data Explorer</h2>;
+    return (
+        <div className={styles.homeContainer}>
+            <h1 className={styles.homeHeading}>Welcome to NASA Data Explorer</h1>
+            <p className={styles.homeSubtitle}>Discover stunning imagery and data from NASA's missions</p>
+            <Link to="/apod" className={styles.homeButton}>Explore APOD</Link>
+        </div>
+    );
 }
 
 
