@@ -4,7 +4,7 @@ A full-stack NASA data visualization application built with React and Express.js
 
 ## 🚀 Live Demo
 
-[View Live App]()
+[View Live App](https://nasaexplorer-9c9e0929d13c.herokuapp.com/)
 
 ## ✨ Features
 
