@@ -44,16 +44,60 @@ body { font-family: Arial, sans-serif; background: #f5f5f5; }
 .nav {
     padding: 1rem;
     background: #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navBrand a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Navigation links container */
+.navLinks {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Hamburger menu button - hidden by default */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 2px;
 }
 
 /* Link styles */
 .link,
 .activeLink {
-    margin-right: 1rem;
     padding: 0.5rem 1rem;
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.2s;
+    white-space: nowrap;
 }
 .link {
     color: #61dafb;
@@ -103,4 +147,54 @@ body { font-family: Arial, sans-serif; background: #f5f5f5; }
 }
 .homeButton:hover {
     background: #ffc300;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .navLinks {
+        position: fixed;
+        top: 73px;
+        left: 0;
+        right: 0;
+        background: #222;
+        flex-direction: column;
+        padding: 1rem;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .navLinksOpen {
+        transform: translateX(0);
+    }
+
+    .link,
+    .activeLink {
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .link:last-child,
+    .activeLink:last-child {
+        border-bottom: none;
+    }
+
+    /* Hamburger animation when open */
+    .navLinksOpen ~ .hamburger span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .navLinksOpen ~ .hamburger span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .navLinksOpen ~ .hamburger span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
 }
