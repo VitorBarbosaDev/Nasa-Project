@@ -11,5 +11,6 @@ export const apiEndpoints = {
     return `${API_BASE_URL}/api/rover?${params}`;
   },
   neo: (startDate, endDate) => `${API_BASE_URL}/api/neo?start_date=${startDate}&end_date=${endDate}`,
-  earth: (date) => `${API_BASE_URL}/api/earth?date=${date}`
+  earth: (date) => `${API_BASE_URL}/api/earth?date=${date}`,
+  earthImage: (date, filename) => `${API_BASE_URL}/api/earth/image/${date}/${filename}`
 };
